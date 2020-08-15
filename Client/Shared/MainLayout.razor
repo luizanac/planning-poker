@@ -1,0 +1,25 @@
+﻿@using Blazored.Toast.Configuration
+@inherits LayoutComponentBase
+
+<div class="header">
+    <span class="header-title">PlanningPoker</span>
+    <div class="header-buttons">
+        <NavLink class="header-button" href="/" Match="NavLinkMatch.All">
+            <span>Home</span>
+        </NavLink>
+        <NavLink class="header-button" href="game" Match="NavLinkMatch.All">
+            <span>Game</span>
+        </NavLink>
+        <NavLink class="header-button" href="about" Match="NavLinkMatch.All">
+            <span>About</span>
+        </NavLink>
+        <NavLink class="header-button" href="help-us" Match="NavLinkMatch.All">
+            <span>Help us</span>
+        </NavLink>
+    </div>
+</div>
+
+<div class="container">
+    @Body
+</div>
+<BlazoredToasts Position="ToastPosition.BottomLeft" Timeout="3"/>

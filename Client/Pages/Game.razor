@@ -1,0 +1,72 @@
+﻿@page "/game"
+@using PlanningPoker.Shared.Entities
+@inject IJSRuntime JsRuntime
+@inject IToastService ToastService
+
+
+<div class="vertical-areas">
+    <div class="session-area">
+        <h3 @onclick="CopyTextToClipboard">Session id: @_sessionId</h3>
+        <a id="copy-button" @onclick="CopyTextToClipboard">Copy</a>
+    </div>
+
+    <div class="players-area">
+        <h1>players</h1>
+    </div>
+
+</div>
+
+<div class="stories-area">
+    <h1>Stories</h1>
+</div>
+
+<div class="cards-container">
+    @if (_cards != null)
+    {
+        @foreach (var card in _cards)
+        {
+            <div class="card @(_cardSelected == card.Value ? "card-selected" : "")" @onclick="() => SelectCard(card.Value)">
+                @card.Value
+            </div>
+        }
+    }
+</div>
+
+@code{
+
+    private Guid _sessionId = Guid.NewGuid();
+    private string _cardSelected = "";
+    private Card[] _cards;
+
+    protected override void OnInitialized()
+    {
+        _cards = new[]
+        {
+            new Card("0"),
+            new Card("1"),
+            new Card("2"),
+            new Card("3"),
+            new Card("5"),
+            new Card("8"),
+            new Card("13"),
+            new Card("21"),
+            new Card("34"),
+            new Card("55"),
+            new Card("89"),
+            new Card("?"),
+            new Card("Pass")
+        };
+    }
+
+    private void SelectCard(string value)
+    {
+        _cardSelected = value;
+    }
+
+    private async Task CopyTextToClipboard()
+    {
+        await JsRuntime.InvokeVoidAsync("clipboardCopy.copyText", _sessionId);
+        ToastService.ShowSuccess("Copied to clipboard!");
+    }
+
+}
